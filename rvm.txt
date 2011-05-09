@@ -1,0 +1,3 @@
+# gen rvmrc
+rvm --rvmrc --create <ruby>@<gemset>
+
