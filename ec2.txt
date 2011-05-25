@@ -1,0 +1,16 @@
+ec2-run-instances ami-xxxx
+ec2-describe-group xxx
+nmap -P0 -p1-100 ec2-...amazonaws.com
+ec2-authorize groupxxx -P tcp -p 22 -s x.x.x.x/32
+nmap...
+
+# 3-teir
+ec2-run-instaces ami-xxx -n 1 -g groupxxx
+ec2-describe-instaces i-xxxx
+namp...
+ec2-create-group groupxxx -d "description here"
+ec2-run ami-xxx -n 1 -g groupxxx
+ec2-authorize groupxxx -o groupxxx -u uidxxxxx
+nmap...
+ec2-authorize groupxxx -P tcp -p 22 -s x.x.x.x/32
+ec2-revoke groupxxx -P tcp -p 22 -s x.x.x.x/32
