@@ -15,4 +15,21 @@ end
 
 rails/actionpack/lib/action_controller/metal/responder.rb
 
+#custom
+class ApplicationController < ..
+class MyController < ApplicationController
+  self.responder = MyResponder
+end
+
+#/lib/responders.rb
+module Responders
+  class MyResponder < ActionController::Responder
+    include ABC
+  end
+end
+
+ActionController::Base.responder = Responders::MyResponder
+
+
+
 

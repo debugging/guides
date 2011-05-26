@@ -1,0 +1,10 @@
+# inserting, overwriting
+i 	insert before cursor
+I 	insert start of current line
+a 	append after cursor
+A 	append end of current line
+o	open new line below
+O	open a new line above
+C	change rest of line
+r	overwrite single character
+R	replace characters
