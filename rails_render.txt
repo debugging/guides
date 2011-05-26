@@ -1,0 +1,11 @@
+render
+--render_to_string
+----_normalize_args
+----_normalize_options
+----render_to_body
+------_process_options
+------_render_template
+--------view_assings
+--------render
+----------_determine_template
+----------_render_template
