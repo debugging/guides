@@ -1,0 +1,18 @@
+#request type, http verb, resource status
+respond_to |format|
+  format.html #view.html.erb
+  format.xml { render :xml => @var}
+end
+
+class MyController < ApplicationController
+  respond_to :html, :xml
+
+  def index
+    @var = Var.all
+    respond_with(@var)
+  end
+end
+
+rails/actionpack/lib/action_controller/metal/responder.rb
+
+

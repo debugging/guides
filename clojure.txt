@@ -1,1 +1,4 @@
+#REPL - read, evaluate, print, and loop
 (println "hello, world!")
+
+#form - any unit of code that can be evaluated to return a value

@@ -1,0 +1,3 @@
+#metaprogramming
+Class#class_eval 	instance methods
+Class#instance_eval 	class methods
