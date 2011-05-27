@@ -8,3 +8,24 @@ O	open a new line above
 C	change rest of line
 r	overwrite single character
 R	replace characters
+
+# editing blocks
+
+>	shift-> indent
+<	shift-< 
+y	copy hl text to clipboard
+d	delete hl text
+yy	yank line
+dd	delete line
+p	paste yanked or deleted line
+P	paste line above current line
+
+u	undu
+ctrl+r	redo
+
+# visual 
+iw	inner word
+aw	word
+is	inner sentence
+
+
