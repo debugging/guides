@@ -1,0 +1,57 @@
+package
+file
+service
+
+factor
+  $::fqdn
+  $::hostname
+  $::operatingsystem
+
+#conditionals
+if $is_virtual {
+
+}
+else {
+
+}
+#selectors
+$apache = $operationsystem ? {
+  redhat	    => 'httpd'
+  /(?i)(ubuntu|debian)/ => 'apache2-$1,
+}
+
+#classes - singleton collections of resources
+class someclass { #defining
+}
+class {'someclass': } #declares activates it
+
+#modules
+/etc/puppet/modules
+mkdir module_name && cd module_name
+{files, lib, templates, tests, manifests}
+/manifests init.pp, {class}.pp, {defined type}.pp
+/manifests/{namespace}/{class}.pp
+
+puppet apply -e "include module_name"
+
+#module scaffolding 
+mkmod() {
+  mkdir "$1"
+  mkdir "$1/files" "$1/lib" "$1/manifests" "$1/templates" "$1/tests"
+}
+
+# tools/binaries
+puppet master
+ agent
+ apply
+ cert
+ resource
+ kick
+ queue
+ filebucket
+ doc
+ describe
+
+
+
+
