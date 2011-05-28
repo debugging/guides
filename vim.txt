@@ -27,5 +27,5 @@ ctrl+r	redo
 iw	inner word
 aw	word
 is	inner sentence
-
+ 
 
