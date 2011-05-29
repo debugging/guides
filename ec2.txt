@@ -7,6 +7,15 @@ nmap -P0 -p1-100 ec2-...amazonaws.com
 ec2-authorize groupxxx -P tcp -p 22 -s x.x.x.x/32
 nmap...
 
+ec2-run-instances ami-xxx -key keyabc -f udabc --availability-zone us-east-1c
+
+ec2-run-instances ami-ccf405a5 -key key123 -f ud-123r --availability-zone us-east-1c --instance-type m1.small
+
+ssh -i key-pair ubuntu@1.2.3.4
+
+#keypairs
+chmod 600 key-pair-file
+
 # 3-teir
 ec2-run-instaces ami-xxx -n 1 -g groupxxx
 ec2-describe-instaces i-xxxx
@@ -25,4 +34,6 @@ ec2-create-tags
 ec2-delete-tags
 ec2-describe-tags
 
+#cloudinit
+#cloud-config
 

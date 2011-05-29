@@ -1,3 +1,36 @@
+#paths
+ /etc/puppet
+ cat /var/lib/puppet/run/*
+ ps aux
+ invoke-rc.d {puppet,puppetmaster} start/stop/restart
+ /etc/init.d/puppet [start|stop|...]
+ /etc/init.d/{puppet,puppetmaster,puppetqd}
+ /usr/bin/puppet
+ /var/run/puppet/{}.pid
+
+ #agent
+ /etc/default/puppet
+	- START=yes
+ /var/run/puppet/agent.id
+ dpkg -l | grep apache2 or dpkg -l "apache2" 
+#master
+ 
+ #starting
+ sudo invoke-rc.d puppetmaster start
+ sudo puppet master --verbose --no-daemonize
+
+ #cert
+ sudo puppet cert --list
+ sudo puppet cert --sign 1.2.3.4.internal
+ 
+ #agent
+ sudo puppet agent --server=1.2.3.4 --no-daemonize --verbose
+
+#####
+
+
+
+
 package
 file
 service
