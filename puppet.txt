@@ -1,13 +1,13 @@
 #paths
  /etc/puppet
- cat /var/lib/puppet/run/*
- ps aux
- invoke-rc.d {puppet,puppetmaster} start/stop/restart
- /etc/init.d/puppet [start|stop|...]
- /etc/init.d/{puppet,puppetmaster,puppetqd}
  /usr/bin/puppet
- /var/run/puppet/{}.pid
 
+ #service
+ ps aux
+ invoke-rc.d puppet|puppetmaster [start|stop|..]
+ /etc/init.d/puppet 
+ sudo service puppet|puppetmaster status
+ cat /var/lib/puppet/run/*
  #agent
  /etc/default/puppet
 	- START=yes
