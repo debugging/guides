@@ -1,3 +1,11 @@
+gi - last insert
+cw
+ciw
+control-u/d
+vi{ viB  y and d
+zt zb
+f_ - find in line ; - repeat
+
 # inserting, overwriting
 i 	insert before cursor
 I 	insert start of current line

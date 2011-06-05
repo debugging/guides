@@ -1,0 +1,133 @@
+using NUnit.Framework;
+
+namespace Solution.Project.Tests
+{
+  [TestFixture]
+  public class UserHelperTests
+  {
+  	private MyObject m_myObject;
+
+	// before all
+	[TestFixtureSetup]
+        public void FixtureSetup()
+ 	{}
+	
+	// before each
+  	[SetUp]
+  	public void Setup()
+  	{
+		m_myObject = new MyObject();
+  	}
+
+  	[Test]
+  	public void isValidUsername_validUsername_ReturnsTrue()
+  	{
+    		bool result = m_myObject.IsValidUsername("john_smith");
+    		Assert.IsTrue(result, "username should be valid");
+  	}
+
+	// after each
+	[TearDown]
+	public void TearDown()
+	{
+		m_myObject = null;
+	}
+	// after all
+	[TestFixtureTearDown]
+	public void FixtureTearDown()
+	{}
+
+ }
+}
+# naming tests
+public void MethodUnderTest_Scenerio_ExpectedBehavior()
+{}
+
+
+#Asserts
+Assert.IsTrue( boolean expression)
+Assert.AreEqual(expectedObject, actualObject, msg);
+Assert.AreSame(first, second, msg);
+
+
+#execptions
+[Test]
+[ExpectedException(typeof(ArgumentException),
+  ExpectedMessage = "...")]
+public void MethodName_State_Expectation()
+{
+
+}
+
+#ignoring
+[Test]
+[Ignore("message here")]
+
+#categories
+[Test]
+[Category("some category")]
+
+#state based testing
+[Test]
+public void IsValidUsername_ValidName_RemembersTrue()
+{
+	..
+	..
+	Assert.IsTrue(user.IsValid);
+}
+
+#dependancies breaking, introducing seams into source code
+# stubs inject into code, locate right layer of indirection, use
+# as seam to inject stub into running code.
+# avoid injecting at deep layers into code base as its harder
+# to understand.
+# use [InternalsVisibleTo] or [Conditional] attributes to hide
+# your testible design
+- extract an interface
+- inject stub impl
+	SomeLib sl = new SomeLib();
+	sl.SomeManager = someFakeManager();
+- recieve interface at constructor
+- recieve interface as property get/set
+- get stub before method call
+	public class SomeLib
+	{
+		private ISomeManager manager;
+		public SomeLib()
+		{
+			manager = ManagerFactory.Create();
+		}
+		public bool MethodToTest()
+		{
+		
+		}
+
+	}
+	[Test]
+	..
+	ManagerFactory.SetManager(someFakeManager);
+	SomeLib sl = new SomeLib();
+	// Assert.IsTrue .. sl.MethodToTest();
+
+ - extract and override
+	1. add virtual factory method that returns real instance
+	2. user factory in code
+	3. in test, inherit from class
+	4. create public field to set manager type
+	5. override factory method
+	6. return public field
+
+#interaction testing with mock objects
+- is testing how objects send/recieve input/output with other objects
+ i.e. testing the interaction with other objects
+interaction-testing => action-driven
+state-based => result-driven
+[]mock object - decides if unit-test passed/failed based on interaction e.g. called once, etc.
+- stub is used to replace another object so we can test another object 
+- mock object is the object we inspect to see if the test passed (asserted against)
+- one mock per test, rest should be stubs
+- avoid stubs that produce other stubs/mocks by wrapping call and then
+ simply mocking/stubbing that call
+ 
+#mock frameworks
+
