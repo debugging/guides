@@ -130,4 +130,29 @@ state-based => result-driven
  simply mocking/stubbing that call
  
 #mock frameworks
+nmock, moq, typemock isolator, rhino mocks
+Rhino mocks:
+	- record-and-play model
+	- arrange-act-assert model
+	- API:
+		MockRepository
+			StrickMock()
+	[Test]
+	public void ____()
+	{
+		MockRepository mocks = new MockRepository();
+		ISomeInterface simulatedService = mocks.StrictMock<ISomeService>();
+		
+		// set expectation
+		using(mocks.Record())
+		{
+		  simulatedService.SomeThing("...");
+		}
 
+		// invoke
+		SomeClass sc = new SomeClass(simulatedService);
+		sc.SomeOther("..");
+
+		// assert
+		mocks.Verify(simulatedService);
+	}

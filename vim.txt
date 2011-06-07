@@ -1,3 +1,8 @@
+viwp - paste over word with yanked word
+yiw - yank inner work
+yiW - yank word
+control-o - previously opened file
+gf - goes to definition (rails)
 gi - last insert
 cw
 ciw
