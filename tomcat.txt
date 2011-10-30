@@ -1,0 +1,33 @@
+#tomcat
+/etc/tomcat6 (server.xml)
+/var/lib/tomcat6/webapps
+/usr/share/tomcat6/
+/etc/init.d/tomcat6 start/stop
+
+/var/lib/tomcat6/work/Catalina/localhost  # work directory
+
+server.xml:
+
+<Context docBase="XXX.war" path="" />
+# move ROOT
+sudo mv /var/lib/tomcat6/webapps/ROOT/ /var/lib/tomcat6/webapps/old_ROOT
+
+
+#ec2
+ami-71589518 us-east-1 instance-store 64-bit m1.large
+
+#updates
+sudo add-apt-repository "deb http://archive.canonical.com/ lucid partner"
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt-get install -y sun-java6-bin sun-java6-jdk sun-java6-jre sun-java6-plugin
+sudo apt-get install -y tomcat6
+sudo apt-get install -y apache2-utils
+
+#choose java
+sudo update-alternatives --config java
+
+ab -n 1000 -c 1 -p post.xml localhost:8080/test
+
+scp -i XXX.pem XXX.war ubuntu@XXXe-1.amazonaws.com:/home/ubuntu
+
+sudo cp hello_world_war.war /var/lib/tomcat6/webapps/hello_world_war.war
