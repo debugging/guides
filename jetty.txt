@@ -1,0 +1,4 @@
+/etc/jetty/ (jetty.xml)
+/usr/share/jetty/logs
+/var/lib/jetty/
+

@@ -1,1 +1,18 @@
 apt-cache show package-name
+
+
+tar -cvzpf filename.tar.gz source/
+tar -xzvf file.tar.gz
+
+du -hs /path/to/folder
+
+ulimit -n
+
+
+#shortcuts
+control A/E 		- beg/end of line
+control + -> 		- forward one word
+control + T 		- swap characters
+control + K			- cut all after cursor
+control + U			- cut before cursor
+control + W			- delete last word

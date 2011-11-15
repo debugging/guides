@@ -31,3 +31,10 @@ ab -n 1000 -c 1 -p post.xml localhost:8080/test
 scp -i XXX.pem XXX.war ubuntu@XXXe-1.amazonaws.com:/home/ubuntu
 
 sudo cp hello_world_war.war /var/lib/tomcat6/webapps/hello_world_war.war
+
+<Connector
+    protocol="org.apache.coyote.http11.Http11NioProtocol"
+    port="80"
+    redirectPort="8443"
+    connectionTimeout="20000"
+    compression="on" />
