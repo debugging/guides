@@ -6,9 +6,28 @@
 
 /var/lib/tomcat6/work/Catalina/localhost  # work directory
 
+/usr/share/tomcat6/bin/catalina.sh
+export CATALINA_OPTS="-Xms512m -Xmx1500m -XX:MaxPermSize=256m"
+export JAVA_OPTS="$JAVA_OPTS -Dcom.sun.management.jmxremote \
+    -Dcom.sun.management.jmxremote.port=8004 \
+    -Dcom.sun.management.jmxremote.ssl=false \
+    -Dcom.sun.management.jmxremote.authenticate=false \
+    -Djava.rmi.server.hostname=XXXXX"
+
 server.xml:
 
 <Context docBase="XXX.war" path="" />
+
+#tuning
+ulimit -n 99999
+# remove dup logging, add rotation
+# see /etc/tomcat6/logging.properties
+
+
+
+
+
+
 # move ROOT
 sudo mv /var/lib/tomcat6/webapps/ROOT/ /var/lib/tomcat6/webapps/old_ROOT
 
