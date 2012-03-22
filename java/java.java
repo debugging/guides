@@ -1,3 +1,13 @@
+#main
+public class TestMain {
+  public static void main (String[] args) {
+    for (String s: args) {
+      System.out.println(s);
+    }
+  }
+}
+
+
 #conversions
 Integer.toString(i)
 new Integer(i).toString()
@@ -16,6 +26,8 @@ public enum SomeType {
     Name3
 }
 
+
+
 #exceptions
 try {
 
@@ -24,6 +36,16 @@ catch(Exception ex) {
 }
 finally {
 }
+
+#environment
+import java.util.Map;
+Map<String, String> env = System.getenv(); // env.keySet() env.get("key")
+// ProcessBuilder
+// ServiceLoader
+
+#benchmark
+long start = System.currentTimeMillis();
+long end = System.currentTimeMillis();
 
 #resources
 InputStream input = getClass().getResourceAsStream(resource);
@@ -65,4 +87,77 @@ public enum MySingleton {
 private static Log log = LogFactory.getLog(SomeClass.class);
 private static final logger = LoggerFactory.getLogger(SomeClass.class);
 
+#threading
+ExecutorService es = ExecutorService.newFixedThreadPool(10);
+for(int x = 0; x < 100; x++) {
+  Runnable worker = new SomeClassImplementingRunnable(params);
+  es.execute(worker);
+}
+
+es.shutdown();
+while(!es.isTerminated()) {
+}
+
+#servlets
+public class SomeServlet extends HttpServlet {
+  public void doPost(HttpServletRequest request, 
+          HttpServletResponse response)
+            throws ServletException, IOException
+
+    response.setContentType("text/html");
+    PrintWriter out = response.getWriter();
+
+    String param1 = request.getParameter("parma1");
+
+    out.close();
+}
+
+// filter
+public final class MyFilter implements Filter {
+  public void doFilter(ServletRequest request, 
+            ServletResponse response, 
+            FilterChain chain)
+      throws IOException, ServletException {
+    
+      chain.doFilter(request, wrapper);
+  }
+}
+
+
+#spring
+
+@Controller
+public class SomeController {
+  @Autowired
+  SomeService someService;
+
+  @RequestMapping(value = "/some/url", method = RequestMethod.GET)
+  @RequestBody
+  public String action1(HttpServletRequest request, HttpServletResponse response) {
+  
+    return "";
+  }
+}
+
+#jdbc
+KeyHolder keyHolder = new GeneratedKeyHolder();
+getJdbcTemplate().update(new preparedStatementCreator() {
+  @Override
+  public PreparedStatement createPreparedStatement(Connection connection) 
+    throws SQLException {
+    PreparedStatement ps = connection.preparedStatement(sql, new String[] {"id});
+
+    ps.setInt(1, ..);
+
+    return ps;
+  }
+},
+keyHolder
+};
+return keyHolder.getKey().intValue();
+
+
+
+#intellij idea
+global search Ctrl+F/Ctrl+R 
 
