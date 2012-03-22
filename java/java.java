@@ -113,16 +113,62 @@ public class SomeServlet extends HttpServlet {
 }
 
 // filter
+@WebFilter(urlPatterns={"/path/*})
 public final class MyFilter implements Filter {
-  public void doFilter(ServletRequest request, 
-            ServletResponse response, 
-            FilterChain chain)
-      throws IOException, ServletException {
-    
-      chain.doFilter(request, wrapper);
+
+  @Override
+  public void init(FilterConfig config) throws ServletException {
+    // app wide startup
+  }
+
+  @Override
+  public void doFilter(ServletRequest request, ServletResponse response,
+          FilterChain chain) 
+            throws IOException, ServletException {
+    chain.doFilter(request, response);
+  }
+
+  @Override 
+  public void destroy() {
+    // app wide shutdown
+  }
+ }
+
+#startup/shutdown 
+@WebListener
+public class ApplicationListener implements ServletContextListener {
+  @Override
+  public void contextInitialized(ServletContextEvent event) {
+    // startup
+
+    // app wide vars
+    event.getServletContext().setAttribute("foo", foo);
+    // retrieve using:  (Foo)getServletContext().getAttribute("foo");
+    // jsp via ETL:  ${foo.getProperty1}
+  }
+  @Override
+  public void contextDestroyed(ServletContextEvent event) {
+    // shutdown
   }
 }
 
+#begin/end request
+
+@WebListener
+public class RequestListener implements ServletRequestListener {
+  @Override
+  public void requestInitialized(ServletRequestEvent event) {
+    // request scoped vars
+    event.getServletRequest().setAttribute("bar", bar);
+    // retrieved via: (Foo) request.getAttribute("bar");
+    // jsp etl: ${bar.getProperty1}
+  }
+
+  @Override
+  public void requestDestroyed(ServletRequestEvent event) {
+  
+  }
+}
 
 #spring
 
