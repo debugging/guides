@@ -278,6 +278,61 @@ TimeUnit.MILLISECONDS.sleep(100);
 
     // use CyclicBarrier instead of join()
 
+::locking
+mutex mutual exclusion
+
+public synchronized int start() {
+  ++counter;
+  ++counter;
+
+  return counter;
+}
+
+::explicit locks
+private Lock lock = new ReentrantLock();
+
+public int start() {
+  lock.lock();
+  try {
+  
+  }
+  finally {
+    lock.unlock();
+  }
+}
+
+::lock timeouts
+private ReentrantLock lock = new ReentrantLock();
+
+public void lock1() {
+  bool captured = lock.tryLock();
+  try {
+  
+  }
+  finally {
+    if(captured)
+        lock.unlock();
+  }
+}
+
+bool captured = false;
+try {
+  captured = lock.tryLock(3, TimeUnit.SECONDS);
+}
+
+atomicity and volatility
+atomic operation cannot be interrupted by the thread scheduler
+(operation will finish before a potential context switch)
+primities (except long and double) are guaranteed to atomic i.e. read/write to memory atomicly.
+long/double maybe be done in 2 different 32-bit operations => word tearing
+
+non-atomic operations means that changes in state may not be reflected/visible to other tasks as changes may be made to local processor cache => tasks have different views of your applications state
+
+synchronization causes flushing to main memory, so fields guarded by synchronization don't have to be marked volatile
+
+volatile - reads/writes go straight to main memory, not thread local cache etc.
+
+
 #file io
 File newFile = new File("filename");
 boolean isCreated = newfile.createNewFile();

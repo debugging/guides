@@ -1,0 +1,224 @@
+chef run:
+  - build note -> reg. w/server -> auth
+  - sych. cookbooks
+  - load libs -> load providers -> load resources ->
+    load att -> load defs -> load recipes
+  - converge, save node
+    - brings node into compliance with policy (roles/recipes)
+      - 2 phases (compile, execute)
+  - run notification handlers
+  - end
+
+- files and templates are loaded when needed
+
+Bootstrapping::
+curl http://opscode.com/chef/installsh | sudo bash
+mkdir /etc/chef
+vim /etc/chef/validation.pem
+vim /etc/chef/client.rb
+vim /etc/chef/first-boot.json
+
+sudo chef-client -j /etc/chef/first-boot.json
+
+Node
+  Chef::Node
+  node['platform'], node['fqdn'], node['kernel']['release']
+
+Directories
+  - /etc/chef/client.rb
+
+  - /etc/chef/cache     file_cache_path     cookbooks
+  - /var/chef/cache/chef-stacktrace.out
+
+Commands::
+  chef-client -l debug
+
+ ::Cookbooks
+recipes, metadata, assets (files and templates)
+recipes:: contain lists of resources to configure on the node
+run list:: list of recipes
+resources:: abstract the details of how to configure the system
+            e.g. directories, files, templates, services, packages
+                 users, groups, scripts, commands, http requests, etc.
+           - type, name, parameter attributes, action to take
+           
+providers:: determine current state of the resource
+
+add recipe to nodes run list
+  recipe[webserver]
+  recipe[webserver::some-recipe]
+
+Chef::Config
+  Chef::Config[:solo]  # true/false
+  Chef::Config[:file_cache_path] # store tmp downloadsd
+
+Chef::Log
+  Chef::Log.info("..")
+  Chef::Log.debug("...")
+
+Shef - command line like irb
+
+
+::Resources
+  File::
+  cookbook_file, remote_file, template
+  file "/etc/password" do
+    owner "root"
+    group "root"
+    mode 0644
+  end
+
+  Templates
+  <%= node['att'] %>
+  <%= @variable1 %>
+  
+  pass varialbes to template:
+    variables :some_var => node["platform"][".."]
+
+  link::
+  manage hard and symb links
+  e.g. ln -s /etc/hosts /tmp/hosts
+  link "/tmp/hosts" do
+    to "/etc/hosts"
+  end
+
+  directory::
+  directory "/var/some/thing" do
+    owner "www-data"
+    recursive true
+    mode 0755
+  end
+
+  packages::
+  package "apache2" do
+    version "2.2.14...."
+  end
+  providers: dpkg_package for .deb
+
+  user/group::
+  group "admins" do
+    gid 123
+    members ['john', 'doe']
+
+  services::
+  common pattern: install => enable at boot => config => start service
+  :start action on ubuntu uses: /usr/sbin/invoke-rc.d
+
+  notifications::
+  cause resource state to change with a specified action based on another resource change
+  e.g.  notifies :restart, "service[nginx]"
+
+  execute::
+  execute "apt-get update"
+  execute "configure something" do
+    command "./configure"
+    cwd "/some/where/here"
+  end
+
+  scripts::
+  script "install something" do
+    interpreter "bash"
+    code <<-EOH
+      # code here
+    EOH
+  end
+  # prevent from running all the time with:
+  creates parameter
+  not_if, only_if metaparameters
+  execute "..." do
+    not_if "...."
+  end
+
+  Errors::
+  debugging recipe and run errors
+
+  begin
+     #
+  rescue
+     raise
+  end
+  Chef::Application.fatal!("....")
+  
+  execute ".." do
+    ignore_failure true
+  end
+
+  Roles::
+  componets of a role: 
+    run list
+      - recipes
+      - roles
+
+  Nodes::
+  -node attributes come from:
+    - ohai determines node attributes
+    - cookbooks
+    - roles
+  - e.g. attributes are:
+    - chef_packages, cpu, current_user, domain, etc, filesystem
+      fqdn, hostname, ipaddress, keys, language, memory, network
+      os, os_version, platform, platform_version, recipes, roles
+      uptime
+  - usage:  node["fqdn"]
+    case node["platform"]
+    when "ubuntu"
+      package "..." do
+        action :install
+      end
+    end
+
+  - cookbooks:
+    - attribute file in cookbook are applied to the node object
+      - default keyword used to set atts, node object is implied:
+        default["nginx"]["version"]
+        default["nginx"]["port"] = 80
+  - recipes:
+    - use node.set method
+      node.set["nginx"]["port"] = 80
+
+  - roles
+    use default_attributes hash like:
+    default_attributes(
+      "nginx" => {
+        "port" => 80
+      }
+
+  node.attribute?("fqdn")
+  node['fqdn'].attribute?("..")
+
+
+  Run List::
+  - run list is an array of roles andor recipes to apply on the node
+  - is expanded during run time
+    node["roles"] is all the roles
+    node["recipes"] is expanded recipes
+
+    node.role?("webserver")
+    node.recipe?("nginx")
+
+  Environment::
+  if not set, _default is used
+  Chef::Node#chef_environment method
+  node.chef_environment # => "_default"
+
+Solo::
+  solo.rb
+    file_cache_path "/../"
+    cookbook_path "..."
+    role_path "..."
+
+  - can be defined as either json or ruby dsl 
+  - common practises:
+    - create a base role
+    roles/base.rb
+    --
+    name "base"
+    description "base role for all nodes."
+
+    run_list( ...)
+    default_attributes(....)
+
+    - create roles for each service e.g. web server, db, ..
+    - create roles based on platforms
+  - apply roles to nodes
+
